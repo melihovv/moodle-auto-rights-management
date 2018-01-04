@@ -31,3 +31,14 @@ $string['auto_rights_management:addinstance'] = 'Добавить новый б�
 $string['settings_header'] = 'Настройки блока автоматического управления правами';
 
 $string['more'] = 'Подробнее';
+
+$string['form_context'] = 'Контекст';
+$string['form_context_required'] = 'Выберите контекст';
+$string['form_context_not_exist'] = 'Выбранный вами контекст не существует';
+
+$string['form_capabilities'] = 'Права';
+$string['form_capabilities_required'] = 'Выберите права';
+$string['form_capabilities_not_exist'] = 'Выбранные вами права не существуют';
+
+$string['form_btn_disable'] = 'Отключить';
+$string['form_btn_enable'] = 'Включить';

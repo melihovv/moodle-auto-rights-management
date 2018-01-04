@@ -24,6 +24,7 @@
  */
 
 require_once('../../config.php');
+require_once('./auto_rights_management_form.php');
 
 global $CFG, $DB, $PAGE, $OUTPUT;
 
@@ -36,24 +37,33 @@ if (!$course = $DB->get_record('course', ['id' => $courseid])) {
 
 require_login($course);
 
-$blockurl = new moodle_url('/blocks/auto_rights_management/view.php', [
-    'courseid' => $courseid,
-    'blockid' => $blockid,
-]);
-
 $PAGE->set_url('/blocks/auto_rights_management/view.php', ['id' => $courseid]);
 $PAGE->set_pagelayout('standard');
 $PAGE->set_heading(get_string('auto_rights_management', 'block_auto_rights_management'));
 
+require_capability('block/auto_rights_management:view', $PAGE->context);
+
 $settingsnode = $PAGE->settingsnav->add(get_string('auto_rights_management', 'block_auto_rights_management'));
-$blocknode = $settingsnode->add(get_string('auto_rights_management', 'block_auto_rights_management'), $blockurl);
+$blocknode = $settingsnode->add(
+    get_string('auto_rights_management', 'block_auto_rights_management'),
+    $blockurl = new moodle_url('/blocks/auto_rights_management/view.php', [
+        'courseid' => $courseid,
+        'blockid' => $blockid,
+    ])
+);
 $blocknode->make_active();
 
 echo $OUTPUT->header();
 
-$instance = $DB->get_record('block_instances', ['id' => $blockid]);
-$block = block_instance('auto_rights_management', $instance);
+$mform = new auto_rights_management_form(null, ['blockid' => $blockid]);
 
-echo 'Hi';
+if ($mform->is_cancelled()) {
+    redirect(new moodle_url('/course/view.php', ['id' => $courseid]));
+} else if ($data = $mform->get_data()) {
+    // TODO save form.
+    redirect($blockurl);
+} else {
+    $mform->display();
+}
 
 echo $OUTPUT->footer();

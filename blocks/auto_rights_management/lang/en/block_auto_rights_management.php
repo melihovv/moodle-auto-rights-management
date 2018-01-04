@@ -31,3 +31,14 @@ $string['auto_rights_management:addinstance'] = 'Add a new auto rights managemen
 $string['settings_header'] = 'Auto rights management block settings';
 
 $string['more'] = 'More';
+
+$string['form_context'] = 'Context';
+$string['form_context_required'] = 'Select context';
+$string['form_context_not_exist'] = 'Selected context do not exist';
+
+$string['form_capabilities'] = 'Capabilities';
+$string['form_capabilities_required'] = 'Select capabilities';
+$string['form_capabilities_not_exist'] = 'Selected capabilities do not exist';
+
+$string['form_btn_disable'] = 'Disable';
+$string['form_btn_enable'] = 'Enable';

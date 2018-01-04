@@ -30,6 +30,4 @@ $string['auto_rights_management:addinstance'] = 'Add a new auto rights managemen
 
 $string['settings_header'] = 'Auto rights management block settings';
 
-$string['block_is_not_configured'] = 'Block is not configured. Turn editing on and configure it.';
-
 $string['more'] = 'More';

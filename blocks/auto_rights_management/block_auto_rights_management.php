@@ -63,11 +63,6 @@ class block_auto_rights_management extends block_base {
         ]);
         $this->content->footer = html_writer::link($url, get_string('more', 'block_auto_rights_management'));
 
-        if ($this->config === null) {
-            $this->content->text = get_string('block_is_not_configured', 'block_auto_rights_management');
-            return $this->content;
-        }
-
         return $this->content;
     }
 

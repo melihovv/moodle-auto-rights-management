@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<XMLDB PATH="blocks/auto_rights_management/db" VERSION="20180106" COMMENT="XMLDB file for Moodle blocks/auto_rights_management"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:noNamespaceSchemaLocation="../../../lib/xmldb/xmldb.xsd"
+>
+    <TABLES>
+        <TABLE NAME="block_auto_rights_management" COMMENT="Settings of auto_rights_management block">
+            <FIELDS>
+                <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true"/>
+                <FIELD NAME="courseid" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false" COMMENT="Course id"/>
+                <FIELD NAME="settings" TYPE="text" NOTNULL="true" SEQUENCE="false" COMMENT="Block settings in base64 encoding"/>
+            </FIELDS>
+            <KEYS>
+                <KEY NAME="primary" TYPE="primary" FIELDS="id"/>
+                <KEY NAME="uniquecourseid" TYPE="unique" FIELDS="courseid"/>
+            </KEYS>
+        </TABLE>
+    </TABLES>
+</XMLDB>

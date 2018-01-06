@@ -42,23 +42,32 @@ class auto_rights_management_form extends moodleform {
 
         $mform->addElement('header', 'formheader', get_string('auto_rights_management', 'block_auto_rights_management'));
 
-        global $COURSE;
+        global $COURSE, $DB;
         $mform->addElement('hidden', 'courseid', $COURSE->id);
         $mform->setType('courseid', PARAM_INT);
 
         $mform->addElement('hidden', 'blockid', $blockid = $this->_customdata['blockid']);
         $mform->setType('blockid', PARAM_INT);
 
-        $this->capabilites_definition();
-        $this->context_definition();
+        $record = $DB->get_record('block_auto_rights_management', ['courseid' => $COURSE->id]);
+        $settings = [];
+
+        if ($record) {
+            $settings = json_decode(base64_decode($record->settings), true);
+        }
+
+        $this->capabilites_definition($settings);
+        $this->context_definition($settings);
+
         $this->buttons_definition();
     }
 
     /**
+     * @param array $settings
      * @throws HTML_QuickForm_Error
      * @throws coding_exception
      */
-    private function capabilites_definition() {
+    private function capabilites_definition($settings) {
         $mform = $this->_form;
 
         $caps = [];
@@ -70,6 +79,10 @@ class auto_rights_management_form extends moodleform {
             'multiple' => true,
         ]);
         $mform->setType('capabilities', PARAM_INT);
+
+        if (isset($settings['capabilities'])) {
+            $mform->setDefault('capabilities', $settings['capabilities']);
+        }
     }
 
     /**
@@ -98,11 +111,12 @@ class auto_rights_management_form extends moodleform {
     }
 
     /**
+     * @param array $settings
      * @throws HTML_QuickForm_Error
      * @throws coding_exception
      * @throws dml_exception
      */
-    private function context_definition() {
+    private function context_definition($settings) {
         global $COURSE;
 
         $mform = $this->_form;
@@ -123,6 +137,10 @@ class auto_rights_management_form extends moodleform {
 
         $mform->addElement('select', 'context', get_string('form_context', 'block_auto_rights_management'), $contexts);
         $mform->setType('context', PARAM_INT);
+
+        if (isset($settings['context'])) {
+            $mform->setDefault('context', $settings['context']);
+        }
     }
 
     /**
@@ -186,5 +204,31 @@ class auto_rights_management_form extends moodleform {
      */
     public function validation($data, $files) {
         return array_merge($this->context_validation($data), $this->capabilities_validation($data));
+    }
+
+    /**
+     * Save form data to database.
+     * @throws dml_exception
+     */
+    public function save() {
+        global $DB, $COURSE;
+
+        $data = $this->get_data();
+
+        $record = $DB->get_record('block_auto_rights_management', ['courseid' => $COURSE->id]);
+        $params = [
+            'courseid' => $COURSE->id,
+            'settings' => base64_encode(json_encode([
+                'context' => $data->context,
+                'capabilities' => $data->capabilities,
+                'action' => $data->enable_button ? 'enable' : 'disable',
+            ])),
+        ];
+
+        if ($record) {
+            $DB->update_record('block_auto_rights_management', (object)array_merge($params, ['id' => $record->id]));
+        } else {
+            $DB->insert_record('block_auto_rights_management', (object)$params);
+        }
     }
 }

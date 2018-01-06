@@ -27,6 +27,7 @@ $string['pluginname'] = 'Auto rights management block';
 $string['auto_rights_management'] = 'Auto rights management';
 
 $string['auto_rights_management:addinstance'] = 'Add a new auto rights management block';
+$string['auto_rights_management:view'] = 'View auto rights management block';
 
 $string['settings_header'] = 'Auto rights management block settings';
 

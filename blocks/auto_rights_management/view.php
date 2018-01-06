@@ -53,17 +53,15 @@ $blocknode = $settingsnode->add(
 );
 $blocknode->make_active();
 
-echo $OUTPUT->header();
-
 $mform = new auto_rights_management_form(null, ['blockid' => $blockid]);
 
 if ($mform->is_cancelled()) {
     redirect(new moodle_url('/course/view.php', ['id' => $courseid]));
-} else if ($data = $mform->get_data()) {
-    // TODO save form.
+} else if ($mform->get_data()) {
+    $mform->save();
     redirect($blockurl);
 } else {
+    echo $OUTPUT->header();
     $mform->display();
+    echo $OUTPUT->footer();
 }
-
-echo $OUTPUT->footer();

@@ -59,7 +59,7 @@ class block_auto_rights_management_edit_form extends block_edit_form {
     private function capabilites_definition($mform) {
         $caps = [];
         foreach (get_all_capabilities() as $cap) {
-            $caps[$cap['id']] = "{$cap['name']}: " . get_capability_string($cap['name']);
+            $caps[$cap['name']] = "{$cap['name']}: " . get_capability_string($cap['name']);
         }
 
         $mform->addElement(
@@ -80,12 +80,12 @@ class block_auto_rights_management_edit_form extends block_edit_form {
         if (!isset($data['config_capabilities']) || !is_array($data['config_capabilities'])) {
             $errors['config_capabilities'] = get_string('settings_capabilities_required', 'block_auto_rights_management');
         } else {
-            $capids = array_map(function ($cap) {
-                return $cap['id'];
+            $capnames = array_map(function ($cap) {
+                return $cap['name'];
             }, get_all_capabilities());
 
             foreach ($data['config_capabilities'] as $cap) {
-                if (!in_array($cap, $capids, false)) {
+                if (!in_array($cap, $capnames, false)) {
                     $errors['config_capabilities'] = get_string('settings_capabilities_not_exist', 'block_auto_rights_management');
                 }
             }

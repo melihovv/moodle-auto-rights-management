@@ -31,15 +31,17 @@ $string['auto_rights_management:view'] = 'View auto rights management block';
 
 $string['settings_header'] = 'Auto rights management block settings';
 
+$string['settings_context'] = 'Context';
+$string['settings_context_required'] = 'Select context';
+$string['settings_context_not_exist'] = 'Selected context do not exist';
+
+$string['settings_capabilities'] = 'Capabilities';
+$string['settings_capabilities_required'] = 'Select capabilities';
+$string['settings_capabilities_not_exist'] = 'Selected capabilities do not exist';
+
+$string['settings_action_disable'] = 'Disable';
+$string['settings_action_enable'] = 'Enable';
+
+$string['block_is_not_configured'] = 'Block is not configured. Turn editing on and configure it.';
+
 $string['more'] = 'More';
-
-$string['form_context'] = 'Context';
-$string['form_context_required'] = 'Select context';
-$string['form_context_not_exist'] = 'Selected context do not exist';
-
-$string['form_capabilities'] = 'Capabilities';
-$string['form_capabilities_required'] = 'Select capabilities';
-$string['form_capabilities_not_exist'] = 'Selected capabilities do not exist';
-
-$string['form_btn_disable'] = 'Disable';
-$string['form_btn_enable'] = 'Enable';

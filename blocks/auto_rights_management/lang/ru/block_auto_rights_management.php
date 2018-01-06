@@ -31,15 +31,17 @@ $string['auto_rights_management:view'] = 'Видеть блок автомати
 
 $string['settings_header'] = 'Настройки блока автоматического управления правами';
 
+$string['settings_context'] = 'Контекст';
+$string['settings_context_required'] = 'Выберите контекст';
+$string['settings_context_not_exist'] = 'Выбранный вами контекст не существует';
+
+$string['settings_capabilities'] = 'Права';
+$string['settings_capabilities_required'] = 'Выберите права';
+$string['settings_capabilities_not_exist'] = 'Выбранные вами права не существуют';
+
+$string['settings_action_disable'] = 'Отключить';
+$string['settings_action_enable'] = 'Включить';
+
+$string['block_is_not_configured'] = 'Блок не настроен. Включите режим редактирования и настройте его.';
+
 $string['more'] = 'Подробнее';
-
-$string['form_context'] = 'Контекст';
-$string['form_context_required'] = 'Выберите контекст';
-$string['form_context_not_exist'] = 'Выбранный вами контекст не существует';
-
-$string['form_capabilities'] = 'Права';
-$string['form_capabilities_required'] = 'Выберите права';
-$string['form_capabilities_not_exist'] = 'Выбранные вами права не существуют';
-
-$string['form_btn_disable'] = 'Отключить';
-$string['form_btn_enable'] = 'Включить';

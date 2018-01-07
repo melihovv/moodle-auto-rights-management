@@ -48,6 +48,18 @@ class rights_manager {
     }
 
     /**
+     * @param int $userid
+     * @param array|string[] $capabilities
+     * @param context $context
+     * @throws \coding_exception
+     * @throws \dml_exception
+     */
+    public function rollback_deny($userid, array $capabilities, context $context) {
+        $rolename = $this->generate_role_name($capabilities, $context);
+        $this->unassign_role_from_user($rolename, $userid, $context);
+    }
+
+    /**
      * @param string $rolename
      * @param int $userid
      * @param context $context
@@ -58,15 +70,34 @@ class rights_manager {
     private function assign_role_to_user($rolename, $userid, context $context) {
         global $DB;
 
-        $roleid = $DB->get_record('role', ['name' => $rolename]) ?: 0;
+        $role = $DB->get_record('role', ['name' => $rolename]);
 
-        if (!$roleid) {
+        if ($role) {
+            $roleid = $role->id;
+        } else {
             $roleid = create_role($rolename, $rolename, '');
         }
 
         role_assign($roleid, $userid, $context);
 
         return $roleid;
+    }
+
+    /**
+     * @param string $rolename
+     * @param int $userid
+     * @param context $context
+     * @throws \coding_exception
+     * @throws \dml_exception
+     */
+    private function unassign_role_from_user($rolename, $userid, context $context) {
+        global $DB;
+
+        $role = $DB->get_record('role', ['name' => $rolename]) ?: 0;
+
+        if ($role) {
+            role_unassign($role->id, $userid, $context->id);
+        }
     }
 
     /**

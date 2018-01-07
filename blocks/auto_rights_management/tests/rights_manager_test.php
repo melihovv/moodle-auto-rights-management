@@ -119,6 +119,25 @@ class rights_manager_test extends advanced_testcase {
         $this->assertTrue(has_capability('block/badges:myaddinstance', $systemcontext, $student));
     }
 
+    public function test_it_should_rollback_deny_permission() {
+        $this->resetAfterTest();
+
+        list($student, $course) = $this->setup_course_with_student();
+        $coursecontext = context_course::instance($course->id);
+
+        $this->assertTrue(has_capability('moodle/grade:view', $coursecontext, $student));
+
+        (new rights_manager)->deny($student->id, ['moodle/grade:view'], $coursecontext);
+        accesslib_clear_all_caches(true);
+
+        $this->assertFalse(has_capability('moodle/grade:view', $coursecontext, $student));
+
+        (new rights_manager)->rollback_deny($student->id, ['moodle/grade:view'], $coursecontext);
+        accesslib_clear_all_caches(true);
+
+        $this->assertTrue(has_capability('moodle/grade:view', $coursecontext, $student));
+    }
+
     /**
      * @return array
      */

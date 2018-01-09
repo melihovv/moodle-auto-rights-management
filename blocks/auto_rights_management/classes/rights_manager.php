@@ -43,6 +43,10 @@ class rights_manager {
         $roleid = $this->assign_role_to_user($rolename, $userid, $context);
 
         foreach ($capabilities as $capability) {
+            if (!has_capability($capability, $context, $userid)) {
+                continue;
+            }
+
             assign_capability($capability, CAP_PROHIBIT, $roleid, $context);
         }
     }

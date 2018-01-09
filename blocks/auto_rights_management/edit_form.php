@@ -43,9 +43,6 @@ class block_auto_rights_management_edit_form extends block_edit_form {
         $mform->addElement('hidden', 'config_courseid', $COURSE->id);
         $mform->setType('config_courseid', PARAM_INT);
 
-        $mform->addElement('hidden', 'config_blockid', $blockid = $this->_customdata['blockid']);
-        $mform->setType('config_blockid', PARAM_INT);
-
         $this->capabilites_definition($mform);
         $this->context_definition($mform);
         $this->action_definition($mform);

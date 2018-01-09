@@ -39,7 +39,7 @@ class rights_manager {
      * @throws \dml_exception
      */
     public function deny($userid, array $capabilities, context $context) {
-        $rolename = $this->generate_role_name($capabilities, $context);
+        $rolename = $this->generate_role_name($userid, $capabilities, $context);
         $roleid = $this->assign_role_to_user($rolename, $userid, $context);
 
         foreach ($capabilities as $capability) {
@@ -55,7 +55,7 @@ class rights_manager {
      * @throws \dml_exception
      */
     public function rollback_deny($userid, array $capabilities, context $context) {
-        $rolename = $this->generate_role_name($capabilities, $context);
+        $rolename = $this->generate_role_name($userid, $capabilities, $context);
         $this->unassign_role_from_user($rolename, $userid, $context);
     }
 
@@ -93,19 +93,21 @@ class rights_manager {
     private function unassign_role_from_user($rolename, $userid, context $context) {
         global $DB;
 
-        $role = $DB->get_record('role', ['name' => $rolename]) ?: 0;
+        $role = $DB->get_record('role', ['name' => $rolename]);
 
         if ($role) {
             role_unassign($role->id, $userid, $context->id);
+            delete_role($role->id);
         }
     }
 
     /**
+     * @param int $userid
      * @param array $capabilities
      * @param context $context
      * @return string
      */
-    private function generate_role_name(array $capabilities, context $context) {
-        return md5(json_encode($capabilities) . $context->id);
+    private function generate_role_name($userid, array $capabilities, context $context) {
+        return md5($userid . json_encode($capabilities) . $context->id);
     }
 }
